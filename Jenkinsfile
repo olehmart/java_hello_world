@@ -38,7 +38,7 @@ pipeline {
                     sh "wget http://${USERNAME}:${PASSWORD}@35.239.122.244:8081/repository/maven-releases/com/coveros/demo/helloworld/1.1/helloworld-1.1.jar -O app.jar"
                 }
                 sh "sudo docker build --build-arg APP=./app.jar -f Dockerfile -t gcr.io/peerless-robot-331021/java_hello_world:latest ."
-                sh "sudo docker push gcr.io/peerless-robot-331021/java_hello_world:latest"
+                sh "sudo gcloud docker -- push gcr.io/peerless-robot-331021/java_hello_world:latest"
             }
         }
         stage('Docker push'){
