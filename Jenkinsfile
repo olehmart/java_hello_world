@@ -17,7 +17,7 @@ pipeline {
             steps {
                 configFileProvider(
                     [configFile(fileId: 'nexus-global', variable: 'MAVEN_SETTINGS')]) {
-                    sh 'mvn -s $MAVEN_SETTINGS -f pom.xml clean deploy'
+                    sh 'mvn -s $MAVEN_SETTINGS clean deploy'
                 }
             }
         }
