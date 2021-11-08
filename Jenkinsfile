@@ -34,7 +34,7 @@ pipeline {
         stage('Docker build'){
             steps {
                 sh "echo 'Docker build'"
-                sh "docker build -f Dockerfile -t 35.239.122.244:9090/java_hello_world:latest"
+                sh "docker build -f Dockerfile -t 35.239.122.244:9090/java_hello_world:latest ."
                 sh "docker push 35.239.122.244:9090/java_hello_world:latest"
             }
         }
