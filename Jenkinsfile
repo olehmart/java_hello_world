@@ -15,12 +15,12 @@ pipeline {
         }
         stage('Maven build'){
             steps {
-                sh "Maven build"
+                sh "echo 'Maven build'"
             }
         }
         stage('Docker build'){
             steps {
-                sh "Docker build"
+                sh "echo 'Docker build'"
             }
         }
     }
