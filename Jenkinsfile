@@ -34,6 +34,7 @@ pipeline {
         stage('Docker build'){
             steps {
                 sh "echo 'Docker build'"
+                sh "ls -la"
             }
         }
         stage('Docker push'){
