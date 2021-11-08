@@ -21,6 +21,14 @@ pipeline {
                 }
             }
         }
+        stage('Maven deploy'){
+            steps {
+                configFileProvider(
+                    [configFile(fileId: 'nexus-global', variable: 'MAVEN_SETTINGS')]) {
+                    sh 'mvn -s $MAVEN_SETTINGS deploy'
+                }
+            }
+        }
         stage('SonarQube scan'){
             steps {
                 sh "echo 'SonarQube scan'"
