@@ -16,7 +16,7 @@ pipeline {
         stage('Maven build'){
             steps {
                 configFileProvider(
-                    [configFile(fileId: 'maven-global', variable: 'MAVEN_SETTINGS')]) {
+                    [configFile(fileId: 'nexus-global', variable: 'MAVEN_SETTINGS')]) {
                     sh 'mvn -s $MAVEN_SETTINGS clean package'
                 }
             }
