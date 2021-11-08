@@ -35,7 +35,7 @@ pipeline {
             steps {
                 sh "echo 'Docker build'"
                 withCredentials([usernamePassword(credentialsId: 'nexus-admin', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]) {
-                    sh "wget http://${USERNAME}:${PASSWORD}@35.239.122.244:8081/repository/maven-releases/com/coveros/demo/helloworld/1.1/helloworld-1.1.jar -O app.jar"
+                    sh "wget http://${USERNAME}:${PASSWORD}@35.239.122.244:8081/repository/maven-releases/com/gazgeek/helloworld/0.0.1/helloworld-0.0.1.jar -O app.jar"
                 }
                 sh "sudo docker build --build-arg APP=./app.jar -f Dockerfile -t gcr.io/peerless-robot-331021/java_hello_world:latest ."
             }
