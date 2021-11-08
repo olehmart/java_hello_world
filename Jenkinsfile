@@ -13,19 +13,11 @@ pipeline {
                 sh "echo Init"
             }
         }
-        stage('Maven build'){
+        stage('Maven build & deploy'){
             steps {
                 configFileProvider(
                     [configFile(fileId: 'nexus-global', variable: 'MAVEN_SETTINGS')]) {
-                    sh 'mvn -s $MAVEN_SETTINGS clean package'
-                }
-            }
-        }
-        stage('Maven deploy'){
-            steps {
-                configFileProvider(
-                    [configFile(fileId: 'nexus-global', variable: 'MAVEN_SETTINGS')]) {
-                    sh 'mvn -s $MAVEN_SETTINGS -f pom.xml deploy'
+                    sh 'mvn -s $MAVEN_SETTINGS -f pom.xml clean deploy'
                 }
             }
         }
