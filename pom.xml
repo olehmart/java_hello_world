@@ -5,11 +5,15 @@
   <modelVersion>4.0.0</modelVersion>
 
   <distributionManagement>
+    <repository>
+      <id>nexus-releases</id>
+      <url>http://35.239.122.244:8081/repository/maven-releases</url>
+   </repository>
    <snapshotRepository>
       <id>nexus-snapshots</id>
       <url>http://35.239.122.244:8081/repository/maven-snapshots</url>
    </snapshotRepository>
-</distributionManagement>
+  </distributionManagement>
 
   <groupId>com.coveros.demo</groupId>
   <artifactId>helloworld</artifactId>
