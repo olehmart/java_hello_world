@@ -18,9 +18,29 @@ pipeline {
                 sh "echo 'Maven build'"
             }
         }
+        stage('SonarQube scan'){
+            steps {
+                sh "echo 'SonarQube scan'"
+            }
+        }
+        stage('Fortify scan'){
+            steps {
+                sh "echo 'Fortify scan'"
+            }
+        }
         stage('Docker build'){
             steps {
                 sh "echo 'Docker build'"
+            }
+        }
+        stage('Docker push'){
+            steps {
+                sh "echo 'Docker push'"
+            }
+        }
+        stage('Deploy application'){
+            steps {
+                sh "echo 'Deploy application'"
             }
         }
     }
