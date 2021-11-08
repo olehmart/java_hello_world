@@ -15,7 +15,10 @@ pipeline {
         }
         stage('Maven build'){
             steps {
-                sh "echo 'Maven build'"
+                configFileProvider(
+                    [configFile(fileId: 'maven-global', variable: 'MAVEN_SETTINGS')]) {
+                    sh 'mvn -s $MAVEN_SETTINGS clean package'
+                }
             }
         }
         stage('SonarQube scan'){
