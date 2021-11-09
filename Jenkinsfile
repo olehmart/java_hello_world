@@ -17,6 +17,9 @@ pipeline {
             steps {
                 configFileProvider(
                     [configFile(fileId: 'nexus-global', variable: 'MAVEN_SETTINGS')]) {
+                    //if (env.BRANCH_NAME == "main"){
+                        sh "mvn -B release:prepare release:perform"
+                    //}
                     sh 'mvn -s $MAVEN_SETTINGS clean deploy'
                 }
             }
