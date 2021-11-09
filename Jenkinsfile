@@ -12,12 +12,14 @@ pipeline {
     stages {
         stage("Init") {
             steps {
-                docker_image_version = sh(script: "git log -n1 --format=\"%cd.${env.BUILD_NUMBER}.%h\" --date=format:\"%m%d%Y\"", returnStdout: true).trim()
-                if (env.BRANCH_NAME == "main"){
-                    additional_docker_image_version = "stable"
-                }
-                else if (env.BRANCH_NAME == "develop") {
-                    additional_docker_image_version = "latest"
+                script {
+                    docker_image_version = sh(script: "git log -n1 --format=\"%cd.${env.BUILD_NUMBER}.%h\" --date=format:\"%m%d%Y\"", returnStdout: true).trim()
+                    if (env.BRANCH_NAME == "main"){
+                        additional_docker_image_version = "stable"
+                    }
+                    else if (env.BRANCH_NAME == "develop") {
+                        additional_docker_image_version = "latest"
+                    }
                 }
             }
         }
