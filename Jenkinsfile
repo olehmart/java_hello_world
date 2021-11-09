@@ -45,9 +45,6 @@ pipeline {
             steps {
                 script {
                     sh "echo 'Docker build'"
-                    // withCredentials([usernamePassword(credentialsId: 'nexus-admin', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]) {
-                    //    sh "wget http://${USERNAME}:${PASSWORD}@35.239.122.244:8081/repository/maven-releases/com/gazgeek/helloworld/0.0.1/helloworld-0.0.1.jar -O app.jar"
-                    // }
                     sh "sudo docker build --no-cache --build-arg APP=target/*.jar -f Dockerfile -t gcr.io/peerless-robot-331021/java_hello_world:${docker_image_version} ."
                     if (additional_docker_image_version != ""){
                         sh "sudo docker tag gcr.io/peerless-robot-331021/java_hello_world:${docker_image_version} gcr.io/peerless-robot-331021/java_hello_world:${additional_docker_image_version}"
@@ -56,12 +53,23 @@ pipeline {
             }
         }
         stage('Docker push'){
+        //TODO: when branch is develop or main or tag
             steps {
                 script {
                     sh "echo 'Docker push'"
                     sh "sudo gcloud docker -- push gcr.io/peerless-robot-331021/java_hello_world:${docker_image_version}"
                     if (additional_docker_image_version != ""){
                         sh "sudo gcloud docker -- push gcr.io/peerless-robot-331021/java_hello_world:${additional_docker_image_version}"
+                    }
+                }
+            }
+        }
+        stage('Cleaning docker images'){
+            steps {
+                script {
+                    sh "sudo docker rmi gcr.io/peerless-robot-331021/java_hello_world:${docker_image_version}"
+                    if (additional_docker_image_version != ""){
+                        sh "sudo docker rmi gcr.io/peerless-robot-331021/java_hello_world:${additional_docker_image_version}"
                     }
                 }
             }
