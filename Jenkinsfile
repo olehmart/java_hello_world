@@ -53,7 +53,11 @@ pipeline {
             }
         }
         stage('Docker push'){
-        //TODO: when branch is develop or main or tag
+            when {
+                expression {
+                    env.BRANCH_NAME == 'develop' || env.BRANCH_NAME == 'main' || (env.TAG_NAME != null && env.TAG_NAME.startsWith("v"))
+                }
+            }
             steps {
                 script {
                     sh "echo 'Docker push'"
@@ -75,6 +79,11 @@ pipeline {
             }
         }
         stage('Deploy application'){
+            when {
+                expression {
+                    env.BRANCH_NAME == 'develop' || env.BRANCH_NAME == 'main' || (env.TAG_NAME != null && env.TAG_NAME.startsWith("v"))
+                }
+            }
             steps {
                 sh "echo 'Deploy application'"
             }
