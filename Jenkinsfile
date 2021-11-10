@@ -29,7 +29,6 @@ pipeline {
                     [configFile(fileId: 'nexus-global', variable: 'MAVEN_SETTINGS')]) {
                     sh 'mvn -s $MAVEN_SETTINGS clean deploy'
                 }
-                sh "ls -l target/"
             }
         }
         stage('SonarQube scan'){
