@@ -100,8 +100,8 @@ pipeline {
                 script {
                     build job: helm_build_job, parameters: [
                         string(name: 'image_tag', value: docker_image_version),
-                        string(name: 'environment', value: 'TODO'),
-                        string(name: 'helm_chart', value: environments_info[env.BRANCH_NAME]),
+                        string(name: 'environment', value: environments_info[env.BRANCH_NAME]),
+                        string(name: 'helm_chart', value: 'java-hello-world'),
                         string(name: 'dry_run', value: "false")
                     ],
                     wait: true
