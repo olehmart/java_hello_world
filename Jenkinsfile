@@ -25,7 +25,7 @@ pipeline {
             steps {
                 script {
                     docker_image_version = sh(script: "git log -n1 --format=\"%cd.${env.BUILD_NUMBER}.%h\" --date=format:\"%m%d%Y\"", returnStdout: true).trim()
-                    if (env.BRANCH_NAME == "main" || (env.TAG_NAME != null && env.TAG_NAME.startsWith("v")){
+                    if (env.BRANCH_NAME == "main" || (env.TAG_NAME != null && env.TAG_NAME.startsWith("v"))){
                         additional_docker_image_version = "stable"
                     }
                     else if (env.BRANCH_NAME == "develop") {
