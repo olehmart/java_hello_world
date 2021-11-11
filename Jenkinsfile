@@ -79,6 +79,11 @@ pipeline {
                 }
             }
         }
+        stage('Sign docker images'){
+            steps {
+                echo "Signing Docker images!"
+            }
+        }
         stage('Cleaning docker images'){
             steps {
                 script {
