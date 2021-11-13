@@ -38,7 +38,7 @@ pipeline {
             steps {
                 configFileProvider(
                     [configFile(fileId: 'nexus-global', variable: 'MAVEN_SETTINGS')]) {
-                    sh 'mvn -s $MAVEN_SETTINGS clean deploy'
+                    sh 'mvn -s $MAVEN_SETTINGS -DskipTests clean deploy'
                 }
             }
         }
@@ -80,9 +80,15 @@ pipeline {
             }
         }
         stage('Sign docker images'){
+            when {
+                expression {
+                    env.BRANCH_NAME == 'develop' || env.BRANCH_NAME == 'main' || (env.TAG_NAME != null && env.TAG_NAME.startsWith("v"))
+                }
+            }
             steps {
                 echo "Signing Docker images!"
-                sh "gcloud beta container binauthz attestations sign-and-create --project='peerless-robot-331021' --artifact-url='${gcr_repo}${docker_image_version}' --attestor='attestor-test' --attestor-project='peerless-robot-331021' --keyversion-project='peerless-robot-331021' --keyversion-location='us-central1' --keyversion-keyring='kms-key-test' --keyversion-key='key2' --keyversion='1'"
+                docker_image_version = sh(script: "gcloud container images describe ${gcr_repo}java-hello-world:${docker_image_version} --format='value(image_summary.digest)'", returnStdout: true).trim()
+                sh "gcloud beta container binauthz attestations sign-and-create --project='peerless-robot-331021' --artifact-url='${gcr_repo}java-hello-world@${docker_image_version}' --attestor='attestor-test' --attestor-project='peerless-robot-331021' --keyversion-project='peerless-robot-331021' --keyversion-location='us-central1' --keyversion-keyring='kms-key-test' --keyversion-key='key2' --keyversion='1'"
             }
         }
         stage('Cleaning docker images'){
