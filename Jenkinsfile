@@ -5,10 +5,10 @@ def jsonParse(def json) {
 }
 
 String gcr_repo = "gcr.io/peerless-robot-331021/", delimiter_type = "tag"
-def delimiter = {
+def delimiter = jsonParse('''{
     "digest": "@",
     "tag": ":"
-}
+}''')
 def environments_info = jsonParse('''{
     "develop": "dev",
     "main": "qa"
