@@ -1,7 +1,5 @@
 FROM openjdk:latest
 
-USER app-user
-
 WORKDIR /app
 
 ARG APP
