@@ -103,7 +103,7 @@ pipeline {
                 script {
                     sh "sudo docker rmi ${gcr_repo}java-hello-world${delimiter[delimiter_type]}${docker_image_version}"
                     if (additional_docker_image_version != ""){
-                        sh "sudo docker rmi ${gcr_repo}java-hello-world${delimiter[delimiter_type]}${additional_docker_image_version}"
+                        sh "sudo docker rmi ${gcr_repo}java-hello-world:${additional_docker_image_version}"
                     }
                 }
             }
