@@ -4,7 +4,11 @@ def jsonParse(def json) {
     new groovy.json.JsonSlurperClassic().parseText(json)
 }
 
-String gcr_repo = "gcr.io/peerless-robot-331021/"
+String gcr_repo = "gcr.io/peerless-robot-331021/", delimiter_type = "tag"
+def delimiter = {
+    "digest": "@",
+    "tag": ":"
+}
 def environments_info = jsonParse('''{
     "develop": "dev",
     "main": "qa"
@@ -88,6 +92,7 @@ pipeline {
             steps {
                 echo "Signing Docker images!"
                 script {
+                    delimiter_type = "digest"
                     docker_image_version = sh(script: "gcloud container images describe ${gcr_repo}java-hello-world:${docker_image_version} --format='value(image_summary.digest)'", returnStdout: true).trim()
                     sh "gcloud beta container binauthz attestations sign-and-create --project='peerless-robot-331021' --artifact-url='${gcr_repo}java-hello-world@${docker_image_version}' --attestor='attestor-test' --attestor-project='peerless-robot-331021' --keyversion-project='peerless-robot-331021' --keyversion-location='us-central1' --keyversion-keyring='kms-key-test' --keyversion-key='key2' --keyversion='1'"
                 }
@@ -96,9 +101,9 @@ pipeline {
         stage('Cleaning docker images'){
             steps {
                 script {
-                    sh "sudo docker rmi ${gcr_repo}java-hello-world:${docker_image_version}"
+                    sh "sudo docker rmi ${gcr_repo}java-hello-world${delimiter[delimiter_type]}${docker_image_version}"
                     if (additional_docker_image_version != ""){
-                        sh "sudo docker rmi ${gcr_repo}java-hello-world:${additional_docker_image_version}"
+                        sh "sudo docker rmi ${gcr_repo}java-hello-world${delimiter[delimiter_type]}${additional_docker_image_version}"
                     }
                 }
             }
