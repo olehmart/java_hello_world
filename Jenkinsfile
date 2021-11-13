@@ -82,6 +82,7 @@ pipeline {
         stage('Sign docker images'){
             steps {
                 echo "Signing Docker images!"
+                sh "gcloud beta container binauthz attestations sign-and-create --project='peerless-robot-331021' --artifact-url='${gcr_repo}${docker_image_version}' --attestor='attestor-test' --attestor-project='peerless-robot-331021' --keyversion-project='peerless-robot-331021' --keyversion-location='us-central1' --keyversion-keyring='kms-key-test' --keyversion-key='key2' --keyversion='1'"
             }
         }
         stage('Cleaning docker images'){
