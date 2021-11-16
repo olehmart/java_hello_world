@@ -139,7 +139,7 @@ pipeline {
                 script {
                     build job: helm_build_job, parameters: [
                         string(name: 'image_tag', value: docker_image_version),
-                        string(name: 'environment', value: "dev",
+                        string(name: 'environment', value: "dev"),
                         string(name: 'helm_chart', value: app_name),
                         string(name: 'dry_run', value: "false")
                     ],
