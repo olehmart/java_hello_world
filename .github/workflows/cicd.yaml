@@ -72,7 +72,6 @@ jobs:
           skaffold build --file-output artifacts.json
       # Initiate deployment following the pipeline definition from clouddeploy.yaml file
       - name: Create release
-        working-directory: instrumentation/ingests/webhook_receiver
         run: |-
           gcloud deploy releases create release-${{ github.sha }} \
             --delivery-pipeline=$DELIVERY_PIPELINE_NAME \
