@@ -4,7 +4,7 @@ metadata:
  name: java-hello-world
  annotations: {}
  labels: {}
-description: Deploys the webhook service for the instrumentation pipeline
+description: Deploys the java-hello-world
 
 serialPipeline:
  stages:

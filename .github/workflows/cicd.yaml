@@ -57,8 +57,6 @@ jobs:
       - name: Create or update Cloud Deploy Pipeline
         run: |-
           gcloud deploy apply --file clouddeploy.yaml --region $REGION --project $PROJECT_ID
-      - name: Copy Python requirements
-        run: cp ./requirements.txt ./instrumentation/ingests/webhook_receiver/.
 
       # Build the application image following the specified profile as defined in skaffold.yaml file
       - name: Skaffold build
