@@ -5,13 +5,11 @@ metadata:
  annotations: {}
  labels: {}
 description: Deploys the java-hello-world
-
 serialPipeline:
  stages:
  - targetId: dev
    profiles: [dev]
 ---
-
 apiVersion: deploy.cloud.google.com/v1
 kind: Target
 metadata:
