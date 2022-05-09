@@ -9,6 +9,7 @@ build:
       ignoreChanges: true
   artifacts:
     - image: us-central1-docker.pkg.dev/sapient-mariner-346422/apps/java-hello-world
+      context: .
 
 deploy:
   helm:
