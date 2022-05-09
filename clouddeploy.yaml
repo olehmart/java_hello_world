@@ -22,7 +22,7 @@ description: st cluster
 requireApproval: false
 gke:
  cluster: projects/sapient-mariner-346422/locations/us-central1/clusters/om-cluster-2
- internalIp: true
+ internalIp: false
 executionConfigs:
 #- privatePool:
 #    workerPool: projects/sapient-mariner-346422/locations/us-central1/workerPools/default-pool
