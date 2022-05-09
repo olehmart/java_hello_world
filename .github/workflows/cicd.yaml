@@ -78,9 +78,3 @@ jobs:
             --region=$REGION \
             --gcs-source-staging-dir="gs://${{ env.DELIVERY_PIPELINE_NAME }}_clouddeploy/source" \
             --build-artifacts=artifacts.json
-      # Step to stop workflow if dev stage failed
-      - name: Dev Stage Check
-        if: steps.status_check_dev.outputs.status != 'SUCCEEDED'
-        run: |
-          echo "Exiting because deploying to the dev stage failed!"
-          exit 1
