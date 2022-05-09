@@ -25,6 +25,7 @@ gke:
  internalIp: true
 executionConfigs:
 - privatePool:
+    workerPool: projects/sapient-mariner-346422/locations/us-central1/workerPools/default-pool
     serviceAccount: java-hello-world@sapient-mariner-346422.iam.gserviceaccount.com
   usages:
   - DEPLOY
