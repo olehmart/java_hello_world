@@ -30,7 +30,7 @@ jobs:
         name: Authenticate to Google using WIF
         uses: google-github-actions/auth@v0
         with:
-          workload_identity_provider: projects/189469537026/locations/global/workloadIdentityPools/wi-pool/providers/wi-pool
+          workload_identity_provider: projects/189469537026/locations/global/workloadIdentityPools/my-pool/providers/my-provider
           service_account: "java-hello-world@${{ env.PROJECT_ID }}.iam.gserviceaccount.com"
           project_id: ${{ env.PROJECT_ID }}
           token_format: "access_token"
