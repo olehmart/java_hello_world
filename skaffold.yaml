@@ -1,7 +1,7 @@
 apiVersion: skaffold/v2beta26
 kind: Config
 metadata:
-  name: java-hello-world
+  name: java-hello-world2
 
 build:
   tagPolicy:
@@ -14,7 +14,7 @@ build:
 deploy:
   helm:
     releases:
-      - name: java-hello-world
+      - name: java-hello-world2
         chartPath: './java-hello-world'
         namespace: default
         createNamespace: false

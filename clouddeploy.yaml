@@ -1,7 +1,7 @@
 apiVersion: deploy.cloud.google.com/v1
 kind: DeliveryPipeline
 metadata:
- name: java-hello-world
+ name: java-hello-world2
  annotations: {}
  labels: {}
 description: Deploys the java-hello-world
@@ -24,11 +24,11 @@ gke:
  cluster: projects/sapient-mariner-346422/locations/us-central1/clusters/om-cluster-1
  internalIp: true
 executionConfigs:
-- privatePool:
-    workerPool: projects/sapient-mariner-346422/locations/us-central1/workerPools/default-pool
-    serviceAccount: java-hello-world@sapient-mariner-346422.iam.gserviceaccount.com
-  usages:
-  - DEPLOY
+#- privatePool:
+#    workerPool: projects/sapient-mariner-346422/locations/us-central1/workerPools/default-pool
+#    serviceAccount: java-hello-world@sapient-mariner-346422.iam.gserviceaccount.com
+#  usages:
+#  - DEPLOY
 - defaultPool:
     serviceAccount: java-hello-world@sapient-mariner-346422.iam.gserviceaccount.com
   usages:

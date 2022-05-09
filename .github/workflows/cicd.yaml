@@ -10,7 +10,7 @@ on:
 
 env:
   PROJECT_ID: sapient-mariner-346422
-  DELIVERY_PIPELINE_NAME: java-hello-world
+  DELIVERY_PIPELINE_NAME: java-hello-world2
   REGION: us-central1
   REGISTRY: us-central1-docker.pkg.dev
 
