@@ -44,7 +44,7 @@ jobs:
       - name: Download Helm chart from Google Artifact registry
         run: |-
           echo '${{ steps.auth.outputs.access_token }}' | helm registry login -u oauth2accesstoken --password-stdin https://${{ env.REGISTRY }}/${{ env.PROJECT_ID }}/helm-charts
-          helm pull oci://${{ env.REGISTRY }}/${{ env.PROJECT_ID }}/charts/java-hello-world --version 1.0.0 --untar
+          helm pull oci://${{ env.REGISTRY }}/${{ env.PROJECT_ID }}/helm-charts/java-hello-world --version 1.0.0 --untar
       - name: Docker Auth
         id: docker-auth
         uses: docker/login-action@v1
