@@ -33,3 +33,4 @@ executionConfigs:
     serviceAccount: java-hello-world@sapient-mariner-346422.iam.gserviceaccount.com
   usages:
   - RENDER
+  - DEPLOY
