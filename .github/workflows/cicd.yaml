@@ -1,4 +1,4 @@
-name: Build and Deploy Java Hello World to GKE
+name: Build and Deploy Java Hello World app to GKE
 on:
   push:
     branches:
