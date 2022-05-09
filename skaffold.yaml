@@ -1,0 +1,36 @@
+apiVersion: skaffold/v2beta26
+kind: Config
+metadata:
+  name: java-hello-world
+
+build:
+  tagPolicy:
+    gitCommit:
+      ignoreChanges: true
+  artifacts:
+    - image: us-central1-docker.pkg.dev/sapient-mariner-346422/apps/java-hello-world
+
+deploy:
+  helm:
+    releases:
+      - name: java-hello-world
+        chartPath: './java-hello-world'
+        namespace: default
+        createNamespace: false
+        recreatePods: false
+        useHelmSecrets: false
+        wait: false
+        artifactOverrides:
+          image: us-central1-docker.pkg.dev/sapient-mariner-346422/apps/java-hello-world
+        version: 1.0.0
+        valuesFiles:
+          - helm/dev.yaml
+        imageStrategy:
+            helm: {}
+
+profiles:
+  - name: dev
+    patches:
+      - op: replace
+        path: /deploy/helm/releases/0/valuesFiles/0
+        value: helm/dev.yaml

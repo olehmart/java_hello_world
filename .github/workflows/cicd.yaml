@@ -1,0 +1,81 @@
+name: Build and Deploy Java Hello World to GKE
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - "src/**"
+      - ".github/workflows/cicd.yml"
+  workflow_dispatch:
+
+env:
+  PROJECT_ID: sapient-mariner-346422
+  DELIVERY_PIPELINE_NAME: java-hello-world
+  REGION: us-central1
+  REGISTRY: us-central1-docker.pkg.dev
+
+jobs:
+  cloud-deploy:
+    name: cloud deploy
+    runs-on: ubuntu-latest
+    permissions:
+      contents: "write"
+      pull-requests: "write"
+      id-token: "write"
+    steps:
+      - name: "Cloning repo"
+        uses: actions/checkout@v3
+
+      - id: auth
+        name: Authenticate to Google using WIF
+        uses: google-github-actions/auth@v0
+        with:
+          workload_identity_provider: projects/189469537026/locations/global/workloadIdentityPools/wi-pool/providers/wi-pool
+          service_account: "java-hello-world@${{ env.PROJECT_ID }}.iam.gserviceaccount.com"
+          project_id: ${{ env.PROJECT_ID }}
+          token_format: "access_token"
+
+      - name: Setup gcloud CLI
+        uses: google-github-actions/setup-gcloud@v0
+        with:
+          project_id: ${{ env.PROJECT_ID }}
+          install_components: "skaffold"
+
+      - name: Download Helm chart from Google Artifact registry
+        run: |-
+          echo '${{ steps.auth.outputs.access_token }}' | helm registry login -u oauth2accesstoken --password-stdin https://${{ env.REGISTRY }}/${{ env.PROJECT_ID }}/helm-charts
+          helm pull oci://${{ env.REGISTRY }}/${{ env.PROJECT_ID }}/charts/java-hello-world --version 1.0.0 --untar
+      - name: Docker Auth
+        id: docker-auth
+        uses: docker/login-action@v1
+        with:
+          username: "oauth2accesstoken"
+          password: ${{ steps.auth.outputs.access_token }}
+          registry: ${{ env.REGISTRY }}
+
+      # Set up Cloud Deploy following the definition in clouddeploy.yaml file
+      - name: Create or update Cloud Deploy Pipeline
+        run: |-
+          gcloud deploy apply --file clouddeploy.yaml --region $REGION --project $PROJECT_ID
+      - name: Copy Python requirements
+        run: cp ./requirements.txt ./instrumentation/ingests/webhook_receiver/.
+
+      # Build the application image following the specified profile as defined in skaffold.yaml file
+      - name: Skaffold build
+        run: |-
+          skaffold build --file-output artifacts.json
+      # Initiate deployment following the pipeline definition from clouddeploy.yaml file
+      - name: Create release
+        working-directory: instrumentation/ingests/webhook_receiver
+        run: |-
+          gcloud deploy releases create release-${{ github.sha }} \
+            --delivery-pipeline=$DELIVERY_PIPELINE_NAME \
+            --region=$REGION \
+            --gcs-source-staging-dir="gs://${{ env.DELIVERY_PIPELINE_NAME }}_clouddeploy/source" \
+            --build-artifacts=artifacts.json
+      # Step to stop workflow if dev stage failed
+      - name: Dev Stage Check
+        if: steps.status_check_dev.outputs.status != 'SUCCEEDED'
+        run: |
+          echo "Exiting because deploying to the dev stage failed!"
+          exit 1
