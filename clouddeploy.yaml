@@ -21,7 +21,7 @@ metadata:
 description: st cluster
 requireApproval: false
 gke:
- cluster: projects/sapient-mariner-346422/locations/us-central1/clusters/om-cluster-1
+ cluster: projects/sapient-mariner-346422/locations/us-central1/clusters/om-cluster-2
  internalIp: true
 executionConfigs:
 #- privatePool:
